@@ -1,5 +1,8 @@
 import { Button } from "@mui/material";
+import { Container } from "@mui/system";
 import { React, useCallback, useEffect, useState } from "react";
+
+import "./styles/Game.css";
 
 const rowsAndColumns = 50;
 
@@ -81,41 +84,59 @@ const Gamegrid = () => {
   });
 
   return (
-    <>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: `repeat(${rowsAndColumns}, 20px)`,
-        }}
-      >
-        {grid.map((rows, i) =>
-          rows.map((column, j) => (
-            <div
-              key={`${i}-${j}`}
-              style={{
-                width: "20px",
-                height: "20px",
-                border: "1px solid black",
-                backgroundColor: grid[i][j] ? "red" : undefined,
-              }}
-              onClick={() => {
-                var gridClone = cloneGrid(grid);
-                gridClone[i][j] = !gridClone[i][j];
-                setGrid(gridClone);
-              }}
-            />
-          ))
-        )}
+    <div className="gameContainer">
+      <div className="gameGrid">
+        {grid.map((rows, i) => {
+          return (
+            <div key={i} className="gameRow">
+              {rows.map((column, j) => {
+                return (
+                  <div
+                    key={`${i}-${j}`}
+                    className="cell"
+                    style={{
+                      backgroundColor: grid[i][j] ? "red" : undefined,
+                    }}
+                    onClick={() => {
+                      var gridClone = cloneGrid(grid);
+                      gridClone[i][j] = !gridClone[i][j];
+                      setGrid(gridClone);
+                    }}
+                  />
+                );
+              })}
+            </div>
+          );
+        })}
+
+        {/*grid.map((rows, i) => 
+            rows.map((column, j) => (
+              <div
+                key={`${i}-${j}`}
+                className="cell"
+                style={{
+                  backgroundColor: grid[i][j] ? "red" : undefined,
+                }}
+                onClick={() => {
+                  var gridClone = cloneGrid(grid);
+                  gridClone[i][j] = !gridClone[i][j];
+                  setGrid(gridClone);
+                }}
+              />
+            ))
+              )*/}
       </div>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setPlay(!play);
-        }}
-      >
-        Play
-      </Button>
-    </>
+      <div className="controls">
+        <Button
+          variant="contained"
+          onClick={() => {
+            setPlay(!play);
+          }}
+        >
+          Play
+        </Button>
+      </div>
+    </div>
   );
 };
 
