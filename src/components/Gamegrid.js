@@ -1,6 +1,5 @@
-import { Button } from "@mui/material";
-import { Container } from "@mui/system";
-import { React, useCallback, useEffect, useState } from "react";
+import { AppBar, Button, Slider, Stack, Toolbar, Typography } from "@mui/material";
+import { React, useEffect, useState } from "react";
 
 import "./styles/Game.css";
 
@@ -33,6 +32,7 @@ const Gamegrid = () => {
 
   const [grid, setGrid] = useState(resetGrid());
   const [play, setPlay] = useState(false);
+  const [simulationSpeed, setSimulationSpeed] = useState(-500);
 
   useEffect(() => {
     const gameOfLife = setTimeout(() => {
@@ -69,10 +69,7 @@ const Gamegrid = () => {
       }
 
       setGrid(operatingGrid);
-
-      // Recursive call
-      gameOfLife();
-    }, 500);
+    }, Math.abs(simulationSpeed));
 
     return () => {
       /* Must clear or things get out of sync
@@ -108,34 +105,34 @@ const Gamegrid = () => {
             </div>
           );
         })}
-
-        {/*grid.map((rows, i) => 
-            rows.map((column, j) => (
-              <div
-                key={`${i}-${j}`}
-                className="cell"
-                style={{
-                  backgroundColor: grid[i][j] ? "red" : undefined,
-                }}
-                onClick={() => {
-                  var gridClone = cloneGrid(grid);
-                  gridClone[i][j] = !gridClone[i][j];
-                  setGrid(gridClone);
-                }}
+      </div>
+      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
+        <Toolbar variant="dense">
+          <Stack spacing={2} direction="row" sx={{ width: 1 / 2, mx: "25%" }} alignItems="center" justifyContent="center">
+            <Button color="secondary"
+              aria-label={play ? "Pause" : "Play"}
+              variant="contained"
+              onClick={() => {
+                setPlay(!play);
+              }}
+            >
+              {play ? "Pause" : "Play"}
+            </Button>
+            <Stack spacing={1} direction="column" sx={{ width: 1 / 5 }} textAlign="center">
+              <Typography>
+                Simulation speed
+              </Typography>
+              <Slider
+                color="secondary"
+                min={-1000}
+                max={-100}
+                value={simulationSpeed}
+                onChange={(event, value) => setSimulationSpeed(value)}
               />
-            ))
-              )*/}
-      </div>
-      <div className="controls">
-        <Button
-          variant="contained"
-          onClick={() => {
-            setPlay(!play);
-          }}
-        >
-          Play
-        </Button>
-      </div>
+            </Stack>
+          </Stack>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 };
