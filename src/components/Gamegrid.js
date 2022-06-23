@@ -106,7 +106,7 @@ const Gamegrid = () => {
           );
         })}
       </div>
-      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }} enableColorOnDark>
         <Toolbar variant="dense">
           <Stack spacing={2} direction="row" sx={{ width: 1 / 2, mx: "25%" }} alignItems="center" justifyContent="center">
             <Button color="secondary"
