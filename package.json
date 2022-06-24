@@ -2,6 +2,7 @@
   "name": "conway-react",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://www-users.york.ac.uk/~gb1149/game-of-life/",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
