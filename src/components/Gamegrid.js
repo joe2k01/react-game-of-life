@@ -1,4 +1,4 @@
-import { AppBar, Button, Slider, Stack, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Slider, Stack, Toolbar, Typography, useTheme } from "@mui/material";
 import { React, useEffect, useState } from "react";
 
 import "./styles/Game.css";
@@ -33,6 +33,29 @@ const Gamegrid = () => {
   const [grid, setGrid] = useState(resetGrid());
   const [play, setPlay] = useState(false);
   const [simulationSpeed, setSimulationSpeed] = useState(-500);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  const getControlsStyle = () => {
+    var style = {};
+    if (windowWidth > 900) {
+      style = {
+        width: 1 / 2,
+        mx: "25%"
+      }
+    } else {
+      style = {
+        width: 1 / 2,
+        my: 2,
+        mx: "25%"
+      }
+    }
+
+    return style;
+  }
+
+  const [controlsStyle, setControlsStyle] = useState(getControlsStyle());
+
+  const theme = useTheme();
 
   useEffect(() => {
     const gameOfLife = setTimeout(() => {
@@ -80,6 +103,17 @@ const Gamegrid = () => {
     };
   });
 
+  useEffect(() => {
+    const getWidth = () => {
+      setWindowWidth(window.innerWidth);
+      setControlsStyle(getControlsStyle());
+    }
+
+    window.addEventListener("resize", getWidth);
+
+    return () => window.removeEventListener("resize", getWidth);
+  })
+
   return (
     <div className="gameContainer">
       <div className="gameGrid">
@@ -92,7 +126,8 @@ const Gamegrid = () => {
                     key={`${i}-${j}`}
                     className="cell"
                     style={{
-                      backgroundColor: grid[i][j] ? "red" : undefined,
+                      backgroundColor: grid[i][j] ? theme.palette.secondary.main : undefined,
+                      border: `1px solid ${theme.palette.primary.main}`
                     }}
                     onClick={() => {
                       var gridClone = cloneGrid(grid);
@@ -108,17 +143,29 @@ const Gamegrid = () => {
       </div>
       <AppBar position="fixed" sx={{ top: 'auto', bottom: 0 }} enableColorOnDark>
         <Toolbar variant="dense">
-          <Stack spacing={2} direction="row" sx={{ width: 1 / 2, mx: "25%" }} alignItems="center" justifyContent="center">
-            <Button color="secondary"
-              aria-label={play ? "Pause" : "Play"}
-              variant="contained"
-              onClick={() => {
-                setPlay(!play);
-              }}
-            >
-              {play ? "Pause" : "Play"}
-            </Button>
-            <Stack spacing={1} direction="column" sx={{ width: 1 / 5 }} textAlign="center">
+          <Stack spacing={2} direction={windowWidth > 900 ? "row" : "column"} sx={controlsStyle} alignItems="center" justifyContent="center">
+            <Stack spacing={2} direction="row" alignItems="center" justifyContent="center">
+              <Button color="secondary"
+                aria-label={play ? "Pause" : "Play"}
+                variant="contained"
+                onClick={() => {
+                  setPlay(!play);
+                }}
+              >
+                {play ? "Pause" : "Play"}
+              </Button>
+              <Button color="secondary"
+                aria-label="Reset"
+                variant="contained"
+                onClick={() => {
+                  setPlay(false);
+                  setGrid(resetGrid());
+                }}
+              >
+                Reset
+              </Button>
+            </Stack>
+            <Stack spacing={1} direction="column" sx={{ width: (windowWidth > 900 ? (1 / 5) : 1) }} textAlign="center">
               <Typography>
                 Simulation speed
               </Typography>
@@ -130,6 +177,7 @@ const Gamegrid = () => {
                 onChange={(event, value) => setSimulationSpeed(value)}
               />
             </Stack>
+
           </Stack>
         </Toolbar>
       </AppBar>

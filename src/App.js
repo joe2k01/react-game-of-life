@@ -1,4 +1,4 @@
-import { AppBar, Box, Button, createTheme, Drawer, IconButton, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, ThemeProvider, Toolbar, Typography } from '@mui/material';
+import { AppBar, Box, Button, createTheme, CssBaseline, Drawer, IconButton, Link, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Modal, Stack, ThemeProvider, Toolbar, Typography } from '@mui/material';
 import './App.css';
 import Gamegrid from './components/Gamegrid';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -22,7 +22,7 @@ const modalContent = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 4,
+  p: 2,
 }
 
 const modalStyle = {
@@ -39,21 +39,24 @@ function App() {
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Modal
           open={showModal}
           onClose={() => setShowModal(false)}
           sx={modalStyle}
         >
           <Box sx={modalContent} color={"#fff"}>
-            <Typography variant='h3'>
+            <Typography variant='h4' color='secondary'>
               Conway's Game of Life
             </Typography>
-            <p>
-              Conway's Game of Life has 4 rules:
+            <Stack direction="column" spacing={2}>
+              <Typography>
+                Start by clicking on some cells to activate them. Conway's Game of Life has 4 rules:
+              </Typography>
               <List>
                 <ListItem>
                   <ListItemIcon>
-                    <CircleIcon />
+                    <CircleIcon color='secondary' />
                   </ListItemIcon>
                   <ListItemText>
                     Any live cell with fewer than two live neighbours dies, as if by underpopulation.
@@ -61,7 +64,7 @@ function App() {
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <CircleIcon />
+                    <CircleIcon color='secondary' />
                   </ListItemIcon>
                   <ListItemText>
                     Any live cell with two or three live neighbours lives on to the next generation.
@@ -69,7 +72,7 @@ function App() {
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <CircleIcon />
+                    <CircleIcon color='secondary' />
                   </ListItemIcon>
                   <ListItemText>
                     Any live cell with more than three live neighbours dies, as if by overpopulation.
@@ -77,18 +80,20 @@ function App() {
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <CircleIcon />
+                    <CircleIcon color='secondary' />
                   </ListItemIcon>
                   <ListItemText>
                     Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
                   </ListItemText>
                 </ListItem>
               </List>
-              From <Link color='secondary' href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>Wikipedia</Link>, read more about the game if you wish.
-            </p>
-            <Button variant='outlined' color="secondary" startIcon={<CloseIcon />} onClick={() => { setShowModal(false) }}>
-              Close
-            </Button>
+              <Typography>
+                From <Link color='secondary' href='https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life'>Wikipedia</Link>, read more about the game if you wish.
+              </Typography>
+              <Button variant='outlined' color="secondary" startIcon={<CloseIcon />} onClick={() => { setShowModal(false) }}>
+                Close
+              </Button>
+            </Stack>
           </Box>
         </Modal>
         <Drawer
@@ -102,7 +107,7 @@ function App() {
                 setShowMenu(false)
               }}>
                 <ListItemIcon>
-                  <HelpCenterIcon />
+                  <HelpCenterIcon color='secondary' />
                 </ListItemIcon>
                 <ListItemText primary="How does this work?" />
               </ListItemButton>
@@ -112,7 +117,7 @@ function App() {
                 window.open("https://github.com/joe2k01/react-game-of-life", '_blank', 'noopener, noreferrer')
               }}>
                 <ListItemIcon>
-                  <GitHubIcon />
+                  <GitHubIcon color='secondary' />
                 </ListItemIcon>
                 <ListItemText primary="See source code on GitHub" />
               </ListItemButton>
@@ -122,7 +127,7 @@ function App() {
                 window.open("https://www-users.york.ac.uk/~gb1149/", '_self', 'noopener')
               }}>
                 <ListItemIcon>
-                  <OpenInBrowserIcon />
+                  <OpenInBrowserIcon color='secondary' />
                 </ListItemIcon>
                 <ListItemText primary="Go to my main page" />
               </ListItemButton>
